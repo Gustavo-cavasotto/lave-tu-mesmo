@@ -1,0 +1,73 @@
+{% load static %}
+{% if erro %}
+{% if erro != '' %}
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: '{{erro}}',
+        background: '#DC3545',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+</script>
+{% endif %}
+{% endif %}
+
+{% if sucesso %}
+{% if sucesso != '' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '{{sucesso}}',
+            background: 'rgb(28, 200, 138)',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+    </script>
+{% endif %}
+{% endif %}
+
+{% for estabelecimento in estabelecimentos %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src="{% static 'img/studio.jpeg' %}" height="300px" alt="">
+            <div class="card-body">
+                <h5 class="card-title">{{ estabelecimento.nome }}</h5>
+                <p class="card-text">{{estabelecimento.cidade}} {{estabelecimento.endereco}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" hx-delete="{% url 'excluir_estabelecimento' estabelecimento.id %}" 
+                        hx-trigger="click"
+                        hx-target="#lista-estabelecimentos"
+                        hx-confirm="Tem certeza que deseja excluir esse estabelecimento?" class="btn btn-sm btn-outline-secondary">Excluir</button>
+                    </div>
+                    <small class="text-body-secondary">5 Estrelas</small>
+                </div>
+            </div>
+        </div>
+    </div>
+{% empty %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <p class="card-text">Nenhum estabelecimento cadastrado.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

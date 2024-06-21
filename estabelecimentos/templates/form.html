@@ -1,0 +1,38 @@
+
+<form enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
+    </div>
+    <div class="form-group">
+        <label for="cidade">Cidade</label>
+        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" required>
+    </div>
+    <div class="form-group">
+        <label for="endereco">Endereço</label>
+        <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endereço" required>
+    </div>
+    <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone" required>
+    </div>
+    <label for="foto">Foto:</label>
+    <input type="file" id="foto" name="foto">
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <textarea class="form-control" id="descricao" name="descricao" placeholder="Descrição" rows="3"
+            required></textarea>
+    </div>
+
+    <div class="col">
+        <button type="button" hx-post="{% url 'criar_estabelecimento' %}" hx-trigger="click" hx-target="#lista-estabelecimentos"
+            style="margin-top: 23px;" class="btn btn-sm btn-success btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fa-solid fa-plus"></i>
+            </span>
+            <span class="text">Incluir</span>
+        </button>
+    </div>
+</form>
+

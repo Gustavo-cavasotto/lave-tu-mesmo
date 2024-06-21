@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lave Tu Mesmo</title>
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Sidebar  -->
+    <link href="{% static 'css/sidebars.css' %}" rel="stylesheet">
+    <!-- Dashboard -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    <!-- Select 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <div id="wrapper">
+        
+        {% include 'change-theme.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" style="display: flex; flex-direction: row; ">
+            {% include 'menu.html' %}
+            <!-- Begin Page Content -->
+            <div class="container-fluid mt-5">
+                    {% block app_title %}
+                    <h1 class="h3 mb-4 text-gray-800">
+                        {{ name }}
+                        <small class="h5 text-gray-500">{{ operacao }}</small>
+                    </h1>
+                    {% endblock app_title %}
+                    {% block form_messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+                    <script>
+                        var m = "{{ message }}";
+                        Swal.fire({
+                            icon: 'success',
+                            title: m,
+                            background: 'rgb(28, 200, 138)',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            
+                        })
+                        
+                    </script>
+                    {% endif %}
+                    {% if message.tags == 'error' %}
+                    <style>
+                        #swal2-title{
+                            color: #ffffff; /* Substitua isso pela cor que deseja */
+                        }
+                    </style>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+                    <script>
+                        var m = "{{ message }}";
+                        Swal.fire({
+                            icon: 'error',
+                            title: m,
+                            background: '#E74A3B',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 10000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        
+                    </script>
+                    {% endif %}
+                    {% endfor %}
+                    {% endblock form_messages %}
+                    {% block content %}
+                    {% endblock %}
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+<!-- Color Mode -->
+<script src="{% static 'js/color-modes.js' %}"></script>
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/sidebars.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
+        integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+<!-- Font Awesome Icons -->
+<script src="https://kit.fontawesome.com/91d5100c83.js" crossorigin="anonymous"></script>
+<!-- Sweet Alert -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+<!-- HTMX -->
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<!-- Select 2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    // Captura o click nas TABLES onde o class='clickable-row'
+    $(".clickable-row").click(function () {
+        window.document.location = $(this).data("href");
+    });
+</script>
+
+{% include 'js_lookups.html' %}
