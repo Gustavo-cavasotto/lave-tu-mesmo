@@ -7,7 +7,8 @@ class Estabelecimento(models.Model):
     cidade = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255)
     telefone = models.CharField(max_length=20)
-    descricao = models.TextField()
+    foto = models.ImageField(upload_to='estabelecimentos', null=True, blank=True)
+    instagram = models.CharField(max_length=40)
 
     def __str__(self):
         return self.nome

@@ -114,12 +114,38 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <!-- Select 2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Jquery Mask -->
+<script type="text/javascript" src="{% static 'js/jquery.mask.min.js' %}"></script>
 
 <script type="text/javascript">
     // Captura o click nas TABLES onde o class='clickable-row'
     $(".clickable-row").click(function () {
         window.document.location = $(this).data("href");
     });
+
+    $(document).ready(function () {
+            $('#id_TIPORELOGIOBD_DATA').mask('00/00/0000');
+            $('#id_TIPORELOGIOBD_HORA1, #id_TIPORELOGIOBD_HORA4, #id_TIPORELOGIOBD_HORA2, #id_TIPORELOGIOBD_HORA3').mask('00:00');
+            $('.mask-time2').mask('00:00:00');
+            $('.mask-date_time').mask('00/00/0000 00:00:00');
+            $('#id_CEP').mask('00000-000');
+            $('.mask-phone').mask('0000-0000');
+            $('.mask-phone_ddd').mask('(00) 0000-0000');
+            $('#id_telefone').mask('(00) 00000-0000');
+            $('.mask-placa').mask('AAA-AAAA');
+            $('#id_CPF').mask('000.000.000-00', { reverse: true });
+            $('#id_CGC').mask('00.000.000/0000-00', { reverse: true });
+            $('.mask-decimal-2').mask('000.000.000.000,00', { reverse: true });
+            $('.mask-decimal-4').mask('000.000.000.000,0000', { reverse: true });
+            $('.mask-integer').mask('0#');
+            $('#id_instagram').mask('@AAAAAAAAAAAAAAAAAAAA', {
+                translation: {
+                    'A': { pattern: /[A-Za-z0-9._]/, recursive: true }
+                }
+            });
+            $('.mask-rg').mask('AAAAAAAAAAAAAAAAAAAA');
+            $('#id_limitesdiautil-0-PercentualDiaUtil').mask('000%', { reverse: true });
+        });
 </script>
 
 {% include 'js_lookups.html' %}

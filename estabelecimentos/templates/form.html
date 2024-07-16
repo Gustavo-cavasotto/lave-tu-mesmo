@@ -1,38 +1,76 @@
+{% extends 'base.html' %}
 
-<form enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
-    </div>
-    <div class="form-group">
-        <label for="cidade">Cidade</label>
-        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" required>
-    </div>
-    <div class="form-group">
-        <label for="endereco">Endereço</label>
-        <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endereço" required>
-    </div>
-    <div class="form-group">
-        <label for="telefone">Telefone</label>
-        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone" required>
-    </div>
-    <label for="foto">Foto:</label>
-    <input type="file" id="foto" name="foto">
-    <div class="form-group">
-        <label for="descricao">Descrição</label>
-        <textarea class="form-control" id="descricao" name="descricao" placeholder="Descrição" rows="3"
-            required></textarea>
-    </div>
+{% block content %}
+<div class="wrapper">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-    <div class="col">
-        <button type="button" hx-post="{% url 'criar_estabelecimento' %}" hx-trigger="click" hx-target="#lista-estabelecimentos"
-            style="margin-top: 23px;" class="btn btn-sm btn-success btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fa-solid fa-plus"></i>
-            </span>
-            <span class="text">Incluir</span>
-        </button>
-    </div>
-</form>
+        <div class="card mb-4">
+            <div class="p-3 d-flex align-items-center">
+                <!-- Botão Novo -->
+                {% if estabelecimento %}
+                <a href="{% url 'criar_estabelecimento' %}" class="btn btn-success btn-icon-split m-3">
+                    <span class="icon text-white-50">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                    <span class="text">Novo</span>
+                </a>
+                {% endif %}
+                <!-- Botão Salvar -->
+                <button class="btn btn-primary btn-icon-split me-2" type="submit">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span class="text">Salvar</span>
+                </button>
+                <!-- Botão Pesquisar -->
+                <a href="{% url 'lista_estabelecimentos' %}" class="btn btn-secondary btn-icon-split align-middle me-2">
+                    <span class="icon text-white-50">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <span class="text">Pesquisar</span>
+                </a>
+                <!-- Botão Excluir -->
+                {% if estabelecimento %}
+                <div class="fixed-right">
+                    <a href="#" onclick="excluirEstabelecimento()" class="btn btn-danger btn-icon-split me-4">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Excluir</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card-body">
+                {% include "form_messages.html" %}
+                {% include 'estabelecimentos/templates/dados.html' %}
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if estabelecimento %}
+<script>
+    function excluirEstabelecimento() {
+        Swal.fire({
+            title: "Tem certeza que deseja excluir esse estabelecimento ??",
+            icon: "warning",
+            showDenyButton: true,
+            confirmButtonColor: "#dc3545",
+            denyButtonColor: "#adb5bd",
+            confirmButtonText: "Excluir",
+            denyButtonText: `Cancelar`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = "{% url 'excluir_estabelecimento' estabelecimento.id %}";
+
+            }
+        });
+    }
+</script>
+{% endif %}
+{% endblock content %}
 

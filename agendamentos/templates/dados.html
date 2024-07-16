@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">{{form.usuario|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.estabelecimento|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.dia|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.horario|as_crispy_field}}</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+

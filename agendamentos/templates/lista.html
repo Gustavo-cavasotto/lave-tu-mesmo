@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <form action='.' method='GET'>
+        {% csrf_token %}
+        <div class="card mb-4">
+            <div class="pt-3">
+                <div class="row p-3">
+                    <!-- Botão Novo -->
+                    <div class="col-7">
+                        <a href="{% url 'criar_agendamento' %}" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fa-solid fa-plus"></i>
+                            </span>
+                            <span class="text">Novo</span>
+                        </a>
+                    </div>
+                    <!-- Campo Pesquisa -->
+                    <div class="d-flex fixed-right col-7 mt-3">
+                        <!-- Combo campos pesquisa -->
+                        <span style="margin-right: 5px; width: 200px;">
+                            <select class="form-control" id="id_search_field" name="searchField">
+                                <option value="estabelecimento" {% if search_field == "estabelecimento" %}selected="selected"{% endif %}>Estabelecimento</option>
+                            </select>
+                        </span>
+                        <!-- Input pesquisa -->
+                        <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value" 
+                                type="text" class="form-control form-control-user" placeholder="Informe sua pesquisa" autofocus>
+                        <!-- Botão pesquisa -->
+                        <button id="btn_pesquisar" class="btn btn-info btn-circle ml-1">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Usuário</td>
+                                <td>Estabelecimento</td>
+                                <td>Data e Hora do Agendamento</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for agendamento in object_list %}
+                            <tr class="clickable-row" data-href='{% url 'editar_agendamento' agendamento.id %}'>
+                                <td>{{ agendamento.usuario|default_if_none:"" }}</td>
+                                <td>{{ agendamento.estabelecimento.nome|default_if_none:"" }}</td>
+                                <td>{{ agendamento.dia|date:"d/m/Y"|default_if_none:"" }}
+                                    {% if agendamento.horario == '1' %}
+                                        07:00 ás 08:00
+                                    {% elif agendamento.horario == '2' %}
+                                        08:00 ás 09:00
+                                    {% elif agendamento.horario == '3' %}
+                                        09:00 ás 10:00
+                                    {% elif agendamento.horario == '4' %}
+                                        10:00 ás 11:00
+                                    {% elif agendamento.horario == '5' %}
+                                        11:00 ás 12:00
+                                    {% elif agendamento.horario == '6' %}
+                                        12:00 ás 13:00
+                                    {% elif agendamento.horario == '7' %}
+                                        13:00 ás 14:00
+                                    {% elif agendamento.horario == '8' %}
+                                        14:00 ás 15:00
+                                    {% elif agendamento.horario == '9' %}
+                                        15:00 ás 16:00
+                                    {% elif agendamento.horario == '10' %}
+                                        16:00 ás 17:00
+                                    {% elif agendamento.horario == '11' %}
+                                        17:00 ás 18:00
+                                    {% elif agendamento.horario == '12' %}
+                                        18:00 ás 19:00
+                                    {% elif agendamento.horario == '13' %}
+                                        19:00 ás 20:00
+                                    {% elif agendamento.horario == '14' %}
+                                        20:00 ás 21:00
+                                    {% elif agendamento.horario == '15' %}
+                                        21:00 ás 22:00
+                                    {% elif agendamento.horario == '16' %}
+                                        22:00 ás 23:00
+                                    {% elif agendamento.horario == '17' %}
+                                        23:00 ás 00:00
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" align="center">Nenhum registro encontrado.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% include "paginator.html" %}
+                </div>
+            </div>
+    </form>
+</div>
+{% endblock %}

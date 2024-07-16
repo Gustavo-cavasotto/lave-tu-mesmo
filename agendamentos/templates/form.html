@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="card mb-4">
+            <div class="p-3 d-flex align-items-center">
+                <!-- Botão Novo -->
+                {% if agendamento %}
+                <a href="{% url 'criar_agendamento' %}" class="btn btn-success btn-icon-split m-3">
+                    <span class="icon text-white-50">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                    <span class="text">Novo</span>
+                </a>
+                {% endif %}
+                <!-- Botão Salvar -->
+                <button class="btn btn-primary btn-icon-split me-2" type="submit">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span class="text">Salvar</span>
+                </button>
+                <!-- Botão Pesquisar -->
+                <a href="{% url 'listar_agendamentos' %}" class="btn btn-secondary btn-icon-split align-middle me-2">
+                    <span class="icon text-white-50">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <span class="text">Pesquisar</span>
+                </a>
+                <!-- Botão Excluir -->
+                {% if agendamento %}
+                <div class="fixed-right">
+                    <a href="#" onclick="excluirAgendamento()" class="btn btn-danger btn-icon-split me-4">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Excluir</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card-body">
+                {% include "form_messages.html" %}
+                {% include 'agendamentos/templates/dados.html' %}
+            </div>
+        </div>
+    </form>
+</div>
+{% if agendamento %}
+<script>
+    
+
+    function excluirAgendamento() {
+        Swal.fire({
+            title: "Tem certeza que deseja excluir esse agendamento ??",
+            icon: "warning",
+            showDenyButton: true,
+            confirmButtonColor: "#dc3545",
+            denyButtonColor: "#adb5bd",
+            confirmButtonText: "Excluir",
+            denyButtonText: `Cancelar`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = "{% url 'excluir_agendamento' agendamento.id %}";
+
+            }
+        });
+    }
+</script>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $('#id_data_hora').change(function(){
+        verificarDisponibilidade();
+    });
+    function verificarDisponibilidade(){
+        $.ajax({
+            url: "{% url 'verificar_disponibilidade' %}",
+            type: "GET",
+            data: {
+                'estabelecimento': $('#id_estabelecimento').val(),
+                'data_hora': $('#id_data_hora').val(),
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status == 'OK') {
+                    Swal.fire({
+                        title: "Estabelecimento disponível",
+                        text: "Estabelecimento disponível para agendamento",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Estabelecimento indisponível",
+                        text: "Estabelecimento indisponível para agendamento",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

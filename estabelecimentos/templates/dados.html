@@ -1,0 +1,28 @@
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">{{form.nome|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.cidade|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.endereco|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.foto|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.telefone|as_crispy_field}}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{form.instagram|as_crispy_field}}</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+

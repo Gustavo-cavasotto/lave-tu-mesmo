@@ -1,55 +1,68 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="container-fluid">
+    <form action='.' method='GET'>
+        <main class="">
+            <!-- Pesquisa -->
+            <div class="d-flex col-7 mt-3">
+                <!-- Input pesquisa -->
+                <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value" type="text"
+                    class="form-control form-control-user" placeholder="Busque sua lavagem" autofocus>
+                <!-- Botão pesquisa -->
+                <button id="btn_pesquisar" class="btn btn-info btn-circle ml-1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <!-- Fim Pesquisa -->
+            <div class="album py-5">
+                <div class="container">
 
-    <main class="">
-        <!-- Pesquisa -->
-        <div class="d-flex col-7 mt-3">
-            <!-- Input pesquisa -->
-            <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value" type="text"
-                class="form-control form-control-user" placeholder="Busque sua lavagem" autofocus>
-            <!-- Botão pesquisa -->
-            <button id="btn_pesquisar" class="btn btn-info btn-circle ml-1">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-        <!-- Fim Pesquisa -->
-        <div class="album py-5">
-            <div class="container">
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                                    dy=".3em">Thumbnail</text>
-                            </svg>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <div id="lista-estabelecimentos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        {% for estabelecimento in object_list %}
+                        <div  class="col">
+                            <div class="card shadow-sm">
+                                {% if estabelecimento.foto %}
+                                    <img src="{{ estabelecimento.foto.url }}" alt="Foto de {{ estabelecimento.nome }}" height="300px">
+                                {% else %}
+                                <img src="{% static 'img/lave-tu-mesmo-logo.png' %}" alt="" height="300px">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ estabelecimento.nome }}</h5>
+                                    <p class="card-text">📍 {{estabelecimento.endereco}} - {{estabelecimento.cidade}} 
+                                        <br>
+                                        <i class="fa-brands fa-instagram"></i> {{estabelecimento.instagram}}
+                                        <br>
+                                        <i class="fa-brands fa-whatsapp"></i> {{estabelecimento.telefone}}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{% url 'criar_agendamento_com_id' estabelecimento.id %}'" type="button">Reservar Horário</button>
+                                        </div>
+                                        <small class="text-body-secondary">⭐⭐⭐⭐⭐</small>
                                     </div>
-                                    <small class="text-body-secondary">9 mins</small>
                                 </div>
                             </div>
                         </div>
+                        {% empty %}
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <div class="col">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="card-text">Nenhum estabelecimento Encontrado.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    
                 </div>
             </div>
-        </div>
 
 
-    </main>
-
+        </main>
+    </form>
 </div>
 
 {% endblock %}

@@ -10,14 +10,13 @@
                 <div class="row p-3">
                     <!-- Botão Novo -->
                     <div class="col-7">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success btn-icon-split">
+                        <a href="{% url 'criar_estabelecimento' %}" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fa-solid fa-plus"></i>
                             </span>
                             <span class="text">Novo</span>
                         </a>
                     </div>
-                    {% include 'estabelecimentos/templates/modal.html' %}
                     <!-- Campo Pesquisa -->
                     <div class="d-flex fixed-right col-7 mt-3">
                         <!-- Combo campos pesquisa -->
@@ -25,17 +24,15 @@
                             <select class="form-control" id="id_search_field" name="searchField">
                                 <option value="nome" {% if search_field == "nome" %}selected="selected" {% endif %}>Nome
                                 </option>
-                                <option value="email" {% if search_field == "email" %}selected="selected" {% endif %}>
+                                <option value="cidade" {% if search_field == "cidade" %}selected="selected" {% endif %}>
                                     Cidade</option>
-                                <option value="telefone" {% if search_field == "telefone" %}selected="selected" {% endif %}>Endereço</option>
-                                <option value="cpf" {% if search_field == "cpf" %}selected="selected" {% endif %}>Telefone
+                                <option value="telefone" {% if search_field == "telefone" %}selected="selected" {% endif %}>Telefone</option>
                                 </option>
                             </select>
                         </span>
                         <!-- Input pesquisa -->
-                        <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value"
-                            type="text" class="form-control form-control-user" placeholder="Informe sua pesquisa"
-                            autofocus>
+                        <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value" 
+                                type="text" class="form-control form-control-user" placeholder="Informe sua pesquisa" autofocus>
                         <!-- Botão pesquisa -->
                         <button id="btn_pesquisar" class="btn btn-info btn-circle ml-1">
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -44,24 +41,23 @@
                 </div>
             </div>
 
-            
             <div id="lista-estabelecimentos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for estabelecimento in estabelecimentos %}
-                <div class="col">
+                {% for estabelecimento in object_list %}
+                <div  class="col">
                     <div class="card shadow-sm">
-                        <img src="{% static 'img/studio.jpeg' %}" height="300px" alt="">
+                        {% if estabelecimento.foto %}
+                            <img src="{{ estabelecimento.foto.url }}" alt="Foto de {{ estabelecimento.nome }}" height="300px">
+                        {% else %}
+                        <img src="{% static 'img/lave-tu-mesmo-logo.png' %}" alt="" height="300px">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ estabelecimento.nome }}</h5>
-                            <p class="card-text">{{estabelecimento.cidade}} {{estabelecimento.endereco}}</p>
+                            <p class="card-text">{{estabelecimento.endereco}} - {{estabelecimento.cidade}}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button"
-                                    hx-delete="{% url 'excluir_estabelecimento' estabelecimento.id %}" 
-                                    hx-trigger="click"
-                                    hx-target="#lista-estabelecimentos"
-                                    hx-confirm="Tem certeza que deseja excluir esse estabelecimento?" class="btn btn-sm btn-outline-secondary">Excluir</button>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{% url 'editar_estabelecimento' estabelecimento.id %}'" type="button">Editar</button>
                                 </div>
-                                <small class="text-body-secondary">5 Estrelas</small>
+                                <small class="text-body-secondary">⭐⭐⭐⭐⭐</small>
                             </div>
                         </div>
                     </div>
@@ -78,8 +74,6 @@
                 </div>
                 {% endfor %}
             </div>
-            
-
     </form>
 </div>
 {% endblock %}
