@@ -21,7 +21,7 @@ def listar(request):
         'object_list': page_obj,
         'page_obj': page_obj,
         'search_field': search_field,
-        'name': 'Agendamentos',
+        'name': 'Meus Agendamentos',
         'operacao': 'Listagem'
     }
     

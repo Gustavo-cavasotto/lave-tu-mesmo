@@ -4,65 +4,89 @@
 
 <div class="container-fluid">
     <form action='.' method='GET'>
-        <main class="">
-            <!-- Pesquisa -->
-            <div class="d-flex col-7 mt-3">
-                <!-- Input pesquisa -->
-                <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value" type="text"
-                    class="form-control form-control-user" placeholder="Busque sua lavagem" autofocus>
-                <!-- Botão pesquisa -->
-                <button id="btn_pesquisar" class="btn btn-info btn-circle ml-1">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-            <!-- Fim Pesquisa -->
-            <div class="album py-5">
+        <main>
+            <!-- Hero Section com Pesquisa -->
+            <div class="bg-dark py-1 mb-1 rounded-3">
                 <div class="container">
-
-                    <div id="lista-estabelecimentos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        {% for estabelecimento in object_list %}
-                        <div  class="col">
-                            <div class="card shadow-sm">
-                                {% if estabelecimento.foto %}
-                                    <img src="{{ estabelecimento.foto.url }}" alt="Foto de {{ estabelecimento.nome }}" height="300px">
-                                {% else %}
-                                <img src="{% static 'img/lave-tu-mesmo-logo.png' %}" alt="" height="300px">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ estabelecimento.nome }}</h5>
-                                    <p class="card-text">📍 {{estabelecimento.endereco}} - {{estabelecimento.cidade}} 
-                                        <br>
-                                        <i class="fa-brands fa-instagram"></i> {{estabelecimento.instagram}}
-                                        <br>
-                                        <i class="fa-brands fa-whatsapp"></i> {{estabelecimento.telefone}}
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{% url 'criar_agendamento_com_id' estabelecimento.id %}'" type="button">Reservar Horário</button>
-                                        </div>
-                                        <small class="text-body-secondary">⭐⭐⭐⭐⭐</small>
-                                    </div>
-                                </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <h6 class="display-5 fw-bold mb-4">Encontre a melhor lavagem para seu carro</h6>
+                            <div class="input-group mb-3">
+                                <input value="{{ request.GET.search_value }}" id="id_search_value" name="search_value"
+                                    type="text" class="form-control form-control-lg" placeholder="Busque sua lavagem"
+                                    autofocus>
+                                <button id="btn_pesquisar" class="btn btn-primary">
+                                    <i class="fa-solid fa-magnifying-glass me-2"></i>Buscar
+                                </button>
                             </div>
                         </div>
-                        {% empty %}
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="card-text">Nenhum estabelecimento Encontrado.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
 
-
+            <!-- Lista de Estabelecimentos -->
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for estabelecimento in object_list %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm hover-shadow">
+                            <div class="position-relative">
+                                {% if estabelecimento.foto %}
+                                <img src="{{ estabelecimento.foto.url }}" class="card-img-top object-fit-cover"
+                                    alt="Foto de {{ estabelecimento.nome }}" style="height: 250px;">
+                                {% else %}
+                                <img src="{% static 'img/lave-tu-mesmo-logo.png' %}"
+                                    class="card-img-top object-fit-cover" alt="Logo padrão" style="height: 250px;">
+                                {% endif %}
+                                <div class="position-absolute top-0 end-0 m-3">
+                                    <span class="badge bg-primary rounded-pill">
+                                        <i class="fas fa-star me-1"></i>5.0
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ estabelecimento.nome }}</h5>
+                                <div class="card-text">
+                                    <p class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                                        {{estabelecimento.endereco}} - {{estabelecimento.cidade}}
+                                    </p>
+                                    <p class="mb-2">
+                                        <i class="fa-brands fa-instagram text-primary me-2"></i>
+                                        {{estabelecimento.instagram}}
+                                    </p>
+                                    <p class="mb-3">
+                                        <i class="fa-brands fa-whatsapp text-success me-2"></i>
+                                        {{estabelecimento.telefone}}
+                                    </p>
+                                </div>
+                                <button class="btn btn-primary w-100"
+                                    onclick="window.location.href='{% url 'criar_agendamento_com_id' estabelecimento.id %}'">
+                                    <i class="fas fa-calendar-plus me-2"></i>Reservar Horário
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Nenhum estabelecimento encontrado.
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </main>
     </form>
 </div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    }
+</style>
 
 {% endblock %}

@@ -30,6 +30,9 @@ HORARIOS = (
 
 
 class Agendamentos(models.Model):
+    class Meta:
+        db_table = 'agendamentos'
+        
     id = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.CASCADE)

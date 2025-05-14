@@ -1,34 +1,39 @@
 {% load static %}
+
 <body>
-    
+
     <main class="d-flex flex-nowrap" style="overflow-x: hidden;">
         <h1 class="visually-hidden">Sidebars examples</h1>
 
-        <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh; overflow-x: hidden;">
-            
-                <h1><span class="text-success">Lave</span> <span class="text-danger">Tu</span> <span class="text-warning">Mesmo</span></h1>
-            
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary"
+            style="width: 280px; height: 100vh; overflow-x: hidden;">
+
+            <img style="margin: 0; width: 200px;" src="{% static 'img/lave-tu-mesmo-logo.png' %}" alt="">
+
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
                     <a href="{% url 'home' %}" class="nav-link link-body-emphasis fw-bold" aria-current="page">
-                        <i class="fa-solid fa-house-chimney text-success"></i>
+                        <i class="fa-solid fa-house-chimney"></i>
                         Home
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'listar_agendamentos' %}" class="nav-link link-body-emphasis fw-bold">
-                        <i class="fa-solid fa-user-group text-danger"></i>
+                        <i class="fa-solid fa-calendar-days"></i>
                         Meus Agendamentos
                     </a>
                 </li>
+
+                {% if user.is_superuser %}
                 <li>
-                    <a href="{% url 'lista_estabelecimentos' %}" class="nav-link link-body-emphasis fw-bold">
-                        <i class="fa-solid fa-warehouse text-info"></i>
-                        Estabelecimento <span class="badge text-bg-danger">Admin</span>
+                    <a href="{% url 'lista_estabelecimentos' %}" class="active nav-link link-body-emphasis fw-bold">
+                        <i class="fa-solid fa-warehouse"></i>
+                        Estabelecimentos
                     </a>
                 </li>
-                
+                {% endif %}
+
                 <li>
                     <a href="#" class="nav-link link-body-emphasis fw-bold ">
                         <i class="fa-solid fa-gear"></i>
@@ -46,7 +51,7 @@
                 <ul class="dropdown-menu text-small shadow">
                     <li><a class="dropdown-item fw-bold" href="#"><i class="fa-solid fa-user"></i>&nbsp;Perfil</a></li>
                     <li><a class="dropdown-item fw-bold" href="{% url 'logout' %}">
-                        <i class="fa-solid fa-power-off text-danger"></i>&nbsp;Logout</a></li>
+                            <i class="fa-solid fa-power-off text-danger"></i>&nbsp;Logout</a></li>
                 </ul>
             </div>
         </div>

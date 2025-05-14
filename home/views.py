@@ -20,8 +20,6 @@ def home(request):
         'object_list': page_obj,
         'page_obj': page_obj,
         'search_field': search_field,
-        'name': 'Página Inicial',
-        'operacao': 'Mostrando Estabelecimentos:'
     }
     
     return render(request, 'home/templates/home.html', context)
